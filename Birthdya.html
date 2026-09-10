@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Fariha! ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Montserrat:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #a1c4fd, #ffc3a0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating Background Hearts */
+        .heart-bg {
+            position: fixed;
+            color: rgba(255, 182, 193, 0.7);
+            font-size: 24px;
+            animation: float 7s infinite linear;
+            z-index: 1;
+            user-select: none;
+            pointer-events: none;
+            filter: drop-shadow(0 0 6px rgba(255, 105, 180, 0.4));
+        }
+
+        @keyframes float {
+            0% { transform: translateY(105vh) rotate(0deg) scale(0.8); opacity: 0.8; }
+            50% { opacity: 1; transform: translateY(50vh) rotate(180deg) scale(1.1); }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(0.8); opacity: 0; }
+        }
+
+        /* Passcode Lock Screen */
+        #lock-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 240, 245, 0.85);
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            text-align: center;
+            padding: 20px;
+            overflow-y: auto;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .lock-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 35px 25px;
+            border-radius: 28px;
+            box-shadow: 0 20px 45px rgba(214, 51, 132, 0.2);
+            max-width: 420px;
+            width: 100%;
+            border: 2px solid rgba(255, 154, 158, 0.5);
+            animation: scaleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.85); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .lock-box h2 {
+            color: #d63384;
+            font-size: 2.3rem;
+            margin-bottom: 8px;
+            font-family: 'Caveat', cursive;
+            animation: pulseGlow 2s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            from { text-shadow: 0 0 5px rgba(214, 51, 132, 0.3); }
+            to { text-shadow: 0 0 15px rgba(255, 71, 87, 0.8); }
+        }
+
+        .lock-box p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .countdown-container {
+            background: #fff0f3;
+            border: 2px solid #ffccd5;
+            border-radius: 18px;
+            padding: 15px 10px;
+            margin: 18px 0;
+            box-shadow: inset 0 0 10px rgba(255, 182, 193, 0.2);
+        }
+
+        .countdown-title {
+            color: #d63384;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timer {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .time-block {
+            background: white;
+            padding: 8px 6px;
+            border-radius: 10px;
+            min-width: 55px;
+            box-shadow: 0 4px 10px rgba(214, 51, 132, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .time-block:hover {
+            transform: translateY(-3px);
+        }
+
+        .time-number {
+            color: #ff4757;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .time-label {
+            color: #888;
+            font-size: 0.7rem;
+            margin-top: 2px;
+            text-transform: uppercase;
+        }
+
+        .hint-text {
+            color: #d63384;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            background: #fff0f3;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        .lock-box input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border: 2px solid #ff9a9e;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.1rem;
+            outline: none;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .lock-box input:focus {
+            border-color: #ff4757;
+            box-shadow: 0 0 12px rgba(255, 71, 87, 0.4);
+        }
+
+        /* Container Styling */
+        .container {
+            background: rgba(255, 255, 255, 0.94);
+            padding: 35px 20px;
+            border-radius: 28px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            text-align: center;
+            max-width: 680px;
+            width: 100%;
+            z-index: 10;
+            display: none;
+            margin: 20px 0;
+            backdrop-filter: blur(8px);
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 2.5rem;
+            margin-bottom: 6px;
+            font-family: 'Caveat', cursive;
+            animation: titleFloat 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleFloat {
+            from { transform: translateY(0); }
+            to { transform: translateY(-5px); }
+        }
+
+        .subtitle {
+            color: #777;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+
+        /* Buttons Styling */
+        .step-btn {
+            background: linear-gradient(45deg, #ff4757, #ff6b81);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.35);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 25px;
+            display: inline-block;
+            width: 100%;
+            max-width: 380px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(255, 71, 87, 0.5);
+        }
+
+        .step-btn:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* Tab Content Panel */
+        .tab-panel {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .tab-panel.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Cake Section */
+        .cake-section {
+            background: #fff0f3;
+            border: 2px dashed #ff9a9e;
+            border-radius: 20px;
+            padding: 30px 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-cake {
+            font-size: 95px;
+            cursor: pointer;
+            display: inline-block;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            user-select: none;
+            filter: drop-shadow(0 10px 15px rgba(255, 71, 87, 0.2));
+        }
+
+        .interactive-cake:hover {
+            transform: scale(1.15) rotate(-5deg);
+            filter: drop-shadow(0 15px 25px rgba(255, 71, 87, 0.4));
+        }
+
+        .cake-status {
+            margin-top: 12px;
+            font-size: 1rem;
+            color: #ff4757;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        /* Wish Section */
+        .wish-box {
+            background: #fff0f3;
+            border: 2px solid #ffccd5;
+            border-radius: 20px;
+            padding: 30px 20px;
+            color: #d63384;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.3);
+            animation: pulseGlowBox 4s infinite alternate;
+        }
+
+        @keyframes pulseGlowBox {
+            0% { box-shadow: 0 10px 20px rgba(255, 182, 193, 0.2); }
+            100% { box-shadow: 0 15px 30px rgba(255, 105, 180, 0.4); }
+        }
+
+        /* Featured Image */
+        .featured-image-container {
+            text-align: center;
+            perspective: 1000px;
+        }
+
+        .featured-image {
+            width: 100%;
+            max-height: 480px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(214, 51, 132, 0.25);
+            border: 4px solid #ffe1e6;
+            transition: transform 0.5s ease;
+        }
+
+        .featured-image:hover {
+            transform: scale(1.02) rotateX(2deg);
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: #fff0f3;
+            border: 2px solid #ffccd5;
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: left;
+        }
+
+        .quiz-title {
+            color: #d63384;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .quiz-question {
+            color: #333;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .quiz-options { grid-template-columns: 1fr; }
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #ff9a9e;
+            color: #555;
+            padding: 12px 15px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 154, 158, 0.4);
+        }
+
+        .option-btn.correct {
+            background: #2ed573 !important;
+            color: white !important;
+            border-color: #2ed573 !important;
+            animation: pulseCorrect 0.5s ease;
+        }
+
+        @keyframes pulseCorrect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+
+        .option-btn.wrong {
+            background: #ff4757 !important;
+            color: white !important;
+            border-color: #ff4757 !important;
+            animation: shakeWrong 0.4s ease;
+        }
+
+        @keyframes shakeWrong {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1rem;
+            min-height: 24px;
+        }
+
+        /* Memories Section */
+        .memories-section {
+            background: #fff0f3;
+            border: 2px solid #ffccd5;
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: left;
+        }
+
+        .chat-bubble {
+            background: white;
+            border-radius: 16px;
+            padding: 14px 18px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(214, 51, 132, 0.08);
+            border-left: 4px solid #ff4757;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(-15px);
+            animation: slideInChat 0.5s forwards ease-out;
+        }
+
+        .chat-bubble:nth-child(1) { animation-delay: 0.1s; }
+        .chat-bubble:nth-child(2) { animation-delay: 0.25s; }
+        .chat-bubble:nth-child(3) { animation-delay: 0.4s; }
+        .chat-bubble:nth-child(4) { animation-delay: 0.55s; }
+
+        @keyframes slideInChat {
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .chat-bubble:hover {
+            transform: translateX(5px) scale(1.01);
+            box-shadow: 0 8px 20px rgba(214, 51, 132, 0.15);
+        }
+
+        .chat-date {
+            font-size: 0.8rem;
+            color: #888;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .chat-sender {
+            font-weight: 600;
+            color: #d63384;
+            margin-right: 5px;
+        }
+
+        /* 3D Flip Cards Section */
+        .flip-section {
+            background: #fff0f3;
+            border: 2px solid #ffccd5;
+            border-radius: 24px;
+            padding: 25px 15px;
+        }
+
+        .flip-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        @media (max-width: 500px) {
+            .flip-grid { grid-template-columns: 1fr; }
+        }
+
+        .flip-card {
+            background-color: transparent;
+            height: 135px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            box-shadow: 0 6px 15px rgba(214, 51, 132, 0.12);
+        }
+
+        .flip-card-front {
+            background: white;
+            color: #d63384;
+            border: 2px solid #ff9a9e;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: border-color 0.3s;
+        }
+
+        .flip-card:hover .flip-card-front {
+            border-color: #ff4757;
+        }
+
+        .flip-card-back {
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            transform: rotateY(180deg);
+            font-weight: 600;
+            font-size: 1rem;
+            border: 2px solid #ff4757;
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3);
+        }
+
+        /* Love Letter */
+        .letter-box {
+            background: #fff8f9;
+            border: 1px solid #ffe1e6;
+            border-left: 5px solid #d63384;
+            padding: 28px 22px;
+            border-radius: 16px;
+            text-align: left;
+            color: #333;
+            line-height: 1.8;
+            font-size: 1rem;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(214, 51, 132, 0.08);
+        }
+
+        .letter-image {
+            max-width: 100%;
+            border-radius: 16px;
+            margin: 15px 0;
+            border: 3px solid #ffe1e6;
+            transition: transform 0.4s ease;
+        }
+
+        .letter-image:hover {
+            transform: scale(1.03);
+        }
+
+        /* Photo Gallery */
+        .gallery-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .gallery-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(214, 51, 132, 0.12);
+            border: 3px solid #ffe1e6;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 35px rgba(214, 51, 132, 0.22);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            max-height: 480px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.04);
+        }
+
+        .gallery-caption {
+            padding: 16px 18px;
+            color: #d63384;
+            font-size: 0.98rem;
+            font-weight: 600;
+            background: #fff0f3;
+            border-top: 1px solid #ffe1e6;
+            text-align: left;
+        }
+
+        .error-msg {
+            color: #ff4757;
+            font-size: 0.85rem;
+            display: none;
+            margin-top: -5px;
+            margin-bottom: 10px;
+        }
+
+        /* Cinematic Fullscreen Overlay */
+        #cinematic-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #0d0614;
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .cinematic-text {
+            color: #ffffff;
+            font-size: 2.2rem;
+            font-family: 'Caveat', cursive;
+            opacity: 0;
+            transition: opacity 1.8s ease-in-out;
+            max-width: 800px;
+            line-height: 1.5;
+            text-shadow: 0 0 15px rgba(255, 182, 193, 0.6);
+            margin: 10px 0;
+        }
+
+        .cinematic-text.visible { opacity: 1; }
+
+        .sub-cinematic-text {
+            color: #ff85a2;
+            font-size: 1.8rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            opacity: 0;
+            transition: opacity 1.8s ease-in-out;
+            margin-top: 15px;
+            text-shadow: 0 0 20px rgba(255, 71, 87, 0.8);
+        }
+
+        .sub-cinematic-text.visible { opacity: 1; }
+
+        .grand-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.8rem;
+            color: #fff;
+            text-shadow: 0 0 10px #ff4757, 0 0 20px #ff4757, 0 0 30px #ff6b81;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 25px;
+        }
+
+        .grand-title.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .cinematic-cake {
+            font-size: 80px;
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1.5s ease-out;
+            filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.8));
+        }
+
+        .cinematic-cake.visible {
+            opacity: 1;
+            transform: translateY(0);
+            animation: floatCake 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatCake {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-12px) scale(1.05); }
+        }
+
+        .cinematic-heart {
+            position: absolute;
+            color: #ff4757;
+            font-size: 28px;
+            user-select: none;
+            pointer-events: none;
+            animation: flyHeart 5s infinite ease-in;
+            opacity: 0;
+        }
+
+        @keyframes flyHeart {
+            0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-20vh) scale(1.5) rotate(360deg); opacity: 0; }
+        }
+
+        .sparkle-star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkleAnim 2s infinite ease-in-out alternate;
+        }
+
+        @keyframes sparkleAnim {
+            0% { opacity: 0.2; transform: scale(0.6); }
+            100% { opacity: 1; transform: scale(1.4); }
+        }
+
+        .cinematic-replay-btn {
+            background: linear-gradient(45deg, #ff4757, #ff6b81);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 71, 87, 0.6);
+            opacity: 0;
+            transition: all 1s ease;
+            margin-top: 35px;
+            pointer-events: auto;
+        }
+
+        .cinematic-replay-btn.visible { opacity: 1; }
+
+        .cinematic-replay-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 71, 87, 0.9);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Music Audio Element -->
+    <audio id="bg-music" loop preload="auto" crossorigin="anonymous">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a816a3.mp3?filename=happy-birthday-155461.mp3" type="audio/mpeg">
+        <source src="birthday-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Background Hearts -->
+    <script>
+        for (let i = 0; i < 20; i++) {
+            let heart = document.createElement('div');
+            heart.className = 'heart-bg';
+            heart.innerHTML = ['❤️', '💖', '💕', '🌸', '✨'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 4 + 5) + 's';
+            heart.style.animationDelay = Math.random() * 3 + 's';
+            document.body.appendChild(heart);
+        }
+    </script>
+
+    <!-- Passcode Lock Screen -->
+    <div id="lock-screen">
+        <div class="lock-box">
+            <h2>Hello Fariha! 💕</h2>
+            
+            <div class="countdown-container">
+                <div class="countdown-title" id="countdown-heading">Counting down to September 15 🎈</div>
+                <div class="timer">
+                    <div class="time-block"><div class="time-number" id="days">00</div><div class="time-label">Days</div></div>
+                    <div class="time-block"><div class="time-number" id="hours">00</div><div class="time-label">Hours</div></div>
+                    <div class="time-block"><div class="time-number" id="minutes">00</div><div class="time-label">Mins</div></div>
+                    <div class="time-block"><div class="time-number" id="seconds">00</div><div class="time-label">Secs</div></div>
+                </div>
+            </div>
+
+            <p>Enter secret code to open your birthday surprise:</p>
+            <div class="hint-text">💡 Hint: Khudka phone password use karo 😉</div>
+            <input type="password" id="passcode" placeholder="Enter secret code">
+            <p id="error" class="error-msg">Incorrect code, try again!</p>
+            <button class="step-btn" style="margin: 5px 0 0 0;" onclick="unlockPage()">Unlock Sweetie 🔐</button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container" id="main-content">
+        <h1>Happy Birthday, Fariha! 🎂✨</h1>
+        <p class="subtitle">Tap each button to unlock your next surprise! ❤️</p>
+
+        <!-- TAB 1: Cake Cutting -->
+        <div id="tab-cake" class="tab-panel active">
+            <div class="cake-section">
+                <div style="color: #d63384; font-weight: 600; margin-bottom: 12px; font-size: 1.1rem;">🎂 Tap the Cake to Cut It! 🔪</div>
+                <div class="interactive-cake" id="cakeEmoji" onclick="cutCake()">🎂</div>
+                <div class="cake-status" id="cakeStatus">Make a wish & tap the cake!</div>
+            </div>
+            <button class="step-btn" id="btn-wish" style="display:none;" onclick="switchTab('tab-wish')">✨ Make a wish from Allah ✨</button>
+        </div>
+
+        <!-- TAB 2: Make a Wish -->
+        <div id="tab-wish" class="tab-panel">
+            <div class="wish-box">
+                🤲 <strong>Dua For You:</strong><br><br>
+                Allah Pak aapki zindagi ko khushiyon, sehat aur sukoon se bhar de. Aap jo bhi duaein maangen, Allah Ta'ala unhein apni bargah mein qbool farmaye aur aapko hamesha aise hi muskurata rakhe! Aameen 💖✨
+            </div>
+            <button class="step-btn" onclick="switchTab('tab-celebration-pic')">📸 Tap for Birthday Picture 💖</button>
+        </div>
+
+        <!-- TAB 3: Birthday Celebration Pic -->
+        <div id="tab-celebration-pic" class="tab-panel">
+            <div class="featured-image-container">
+                <img src="WhatsApp_Image_2026-09-10_at_6.52.39_2K_20260910193235.jpeg" alt="Fariha Birthday Celebration" class="featured-image">
+            </div>
+            <button class="step-btn" onclick="switchTab('tab-quiz')">❓ Tap for Quick Quiz 💭</button>
+        </div>
+
+        <!-- TAB 4: Quick Quiz -->
+        <div id="tab-quiz" class="tab-panel">
+            <div class="quiz-section">
+                <div class="quiz-title">❓ Quick Memory Quiz 💭</div>
+                <div class="quiz-question">Aapko maine sabse zayda kis naam se pukara hai?</div>
+                <div class="quiz-options">
+                    <button class="option-btn" onclick="checkAnswer(this, 'A')">a. Sweetie</button>
+                    <button class="option-btn" onclick="checkAnswer(this, 'B')">b. Janeman</button>
+                    <button class="option-btn" onclick="checkAnswer(this, 'C')">c. Princess</button>
+                    <button class="option-btn" onclick="checkAnswer(this, 'D')">d. Madam ji</button>
+                </div>
+                <div class="quiz-feedback" id="quizFeedback"></div>
+            </div>
+            <button class="step-btn" onclick="switchTab('tab-memories')">💬 Tap for Memories Gallery 💭</button>
+        </div>
+
+        <!-- TAB 5: Memories Gallery -->
+        <div id="tab-memories" class="tab-panel">
+            <div class="memories-section">
+                <div style="color: #d63384; font-size: 1.5rem; font-family: 'Caveat', cursive; text-align: center; margin-bottom: 15px;">💭 Unforgettable Chat Memories 💬</div>
+                
+                <div class="chat-bubble">
+                    <div class="chat-date">26 February 2025 | 01:35 AM</div>
+                    <div class="chat-text"><span class="chat-sender">Fariha:</span> "Lagrahe flirt kar Rahe ho🤣 Foreigner Jase🤣"</div>
+                </div>
+
+                <div class="chat-bubble">
+                    <div class="chat-date">26 February 2025 | 03:22 AM</div>
+                    <div class="chat-text"><span class="chat-sender">Fariha:</span> "Srf awaz sunne ki bahane sari raath ase hi baatin Karli yr🤣🤣🤣 Speaker pe sound Kam Karke😂🤣"</div>
+                </div>
+
+                <div class="chat-bubble">
+                    <div class="chat-date">04 March 2025 | 11:16 PM</div>
+                    <div class="chat-text"><span class="chat-sender">Fariha:</span> "Ghumne aye hu apke Dil main 😂😂"</div>
+                </div>
+
+                <div class="chat-bubble">
+                    <div class="chat-date">04 March 2025 | 11:13 PM</div>
+                    <div class="chat-text"><span class="chat-sender">Umair Kings:</span> "Mere Dil ka Hal apse pochna chaiye... Kiu k APK pass ha"</div>
+                </div>
+
+                <div style="text-align: center; color: #d63384; font-weight: 600; font-size: 1rem; margin-top: 20px; padding: 10px; background: rgba(255, 255, 255, 0.6); border-radius: 12px;">
+                    Memories bohat zayda hain... Toh aage barhte hain ✨
+                </div>
+            </div>
+            <button class="step-btn" onclick="switchTab('tab-flipcards')">💌 Tap to Open Flip Cards 💖</button>
+        </div>
+
+        <!-- TAB 6: Flip Cards -->
+        <div id="tab-flipcards" class="tab-panel">
+            <div class="flip-section">
+                <div style="color: #d63384; font-size: 1.6rem; font-family: 'Caveat', cursive; margin-bottom: 12px;">💌 Tap each card to reveal... 💖</div>
+                <div class="flip-grid">
+                    
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Khushi Kon Hai?</div>
+                            <div class="flip-card-back">❤️ Tum</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Mohabbat Kon Hai?</div>
+                            <div class="flip-card-back">❤️ Tum</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Duniya Kon Hai?</div>
+                            <div class="flip-card-back">❤️ Tum</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Sabse Pyari Muskurahat Ki Wajah Kon Hai?</div>
+                            <div class="flip-card-back">❤️ Tum</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Har Dua Mein Kon Hai?</div>
+                            <div class="flip-card-back">❤️ Tum</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Aankhon Ka Sabse Haseen Khwab Kon Hai?</div>
+                            <div class="flip-card-back">❤️ Tum</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Mere Dil Mein Sabse Kareeb Kon Hai?</div>
+                            <div class="flip-card-back">❤️ Tum</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Zindagi Ka Sabse Khoobsurat Hissa Kon Hai?</div>
+                            <div class="flip-card-back">❤️ Tum</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Har Soch Mein Kon Rehta Hai?</div>
+                            <div class="flip-card-back">❤️ Tum</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Mohabbat Ki Shuruaat Kahan Se Hui?</div>
+                            <div class="flip-card-back">❤️ Tumhari Aankhon Se</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-back">❤️ Tumse… Beinteha ❤️</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Mohabbat Ki Manzil Kya Hai?</div>
+                            <div class="flip-card-back">❤️ Tum… Sirf Tum</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Agar Mujhe Dobara Zindagi Mile Toh?</div>
+                            <div class="flip-card-back">❤️ Main Phir Tumhein Hi Chahunga</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Sabse Badi Khwahish Kya Hai?</div>
+                            <div class="flip-card-back">❤️ Tumhara Hamesha Mere Saath Rehna</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Meri Kahani Ka Sabse Haseen Kirdar Kon Hai?</div>
+                            <div class="flip-card-back">❤️ Tum ❤️</div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">💭 Aur Meri Mohabbat Ki Dastaan Ka Aakhri Lafz?</div>
+                            <div class="flip-card-back">❤️ Tum… Hamesha Tum.</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <button class="step-btn" onclick="switchTab('tab-letter')">✉️ Open Your Special Letter 💌</button>
+        </div>
+
+        <!-- TAB 7: Open Your Letter -->
+        <div id="tab-letter" class="tab-panel">
+            <div class="letter-box">
+                <p style="font-size: 1.3rem; color: #d63384; font-family: 'Caveat', cursive; font-weight: bold;">Meri Fariha,</p>
+                <p>Pata nahi tumhein kabhi yeh ehsaas hua hai ya nahi ke meri mohabbat ki yeh dastan asal mein tumhari aankhon se shuru hui thi. Woh aankhein… jinhein pehli baar dekha tha, toh shayad mujhe khud bhi nahi pata tha ke ek din yehi aankhein meri poori duniya ban jayengi.</p>
+                <p>Tumhari aankhon mein kuch aisa tha jo mujhe apni taraf kheenchta chala gaya. Pehle ek khubsurat ehsaas tha, phir pasand bani, phir aadat… aur dekhte hi dekhte mohabbat meri zindagi ka sabse khoobsurat hissa ban gayi.</p>
+                
+                <div style="text-align: center;">
+                    <img src="IMG-20250429-WA0012.jpg" alt="Fariha's Eyes" class="letter-image">
+                </div>
+
+                <p>Aaj meri mohabbat us mukaam tak pohanch chuki hai jahan meri soch bhi nahi pohanch sakta. Main jitna tumhare baare mein sochta hoon, utna hi mehsoos hota hai ke abhi toh tumhein samajhna shuru kiya hai. Tum mere liye sirf ek shakhs nahi ho… tum woh ehsaas ho jo mere har din mein basa hua hai.</p>
+                <p>Main tumse kitna pyar karta hoon, shayad alfaaz kabhi bayan hi na kar saken. Agar main duniya ke saare lafz bhi jama kar loon, phir bhi mere dil mein tumhare liye jo mohabbat hai, uska sirf ek chhota sa hissa hi keh paunga.</p>
+                <p>Tumhari khushi mujhe apni khushi lagti hai. Tumhari udaasi mere dil par bojh ban jaati hai. Tumhari ek muskurahat mera poora din badal deti hai. Aur tumhari khamoshi bhi mujhe hazaar baatein suna deti hai.</p>
+                <p>Toh mera jawab sirf “Tum” hoga.</p>
+                <p>Tum meri mohabbat ho, meri khushi ho, meri dua ho… aur meri woh khoobsurat dastan ho jo main chahta hoon ke kabhi khatam na ho.</p>
+                <div style="text-align: right; margin-top: 20px; color: #d63384; font-weight: bold;">
+                    With all my heart,<br>Umair ❤️
+                </div>
+            </div>
+            <button class="step-btn" onclick="switchTab('tab-special-moments')">📸 View Special Moments Gallery 💕</button>
+        </div>
+
+        <!-- TAB 8: Special Moments Gallery -->
+        <div id="tab-special-moments" class="tab-panel">
+            <div style="color: #d63384; font-size: 1.7rem; font-family: 'Caveat', cursive; margin-bottom: 18px;">📸 Special Moments Gallery 💕</div>
+            <div class="gallery-grid">
+                
+                <div class="gallery-card">
+                    <img src="IMG-20250512-WA0048.jpg" alt="Fariha holding cat">
+                    <div class="gallery-caption">"Yeh billu bohot kismat wala hai jo tumhari aagosh mein hai... Tumhari yeh masoomiyat mera dil jeet leti hai. 🐱❤️"</div>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="IMG-20250523-WA0027.jpg" alt="Fariha close-up selfie with cat">
+                    <div class="gallery-caption">"Tumhari in jheel si gehri aankhon mein kho jaane ko dil karta hai... Dil chahta hai bas tumhein dekhta rahoon. ✨👁️"</div>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="IMG-20250607-WA0053.jpg" alt="Fariha in peach outfit">
+                    <div class="gallery-caption">"Peach dress, haath mein lal chooriyan aur tumhari yeh ada... Tum kisi shahzadi se kam nahi lagti! 👑🌸"</div>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="IMG-20250608-WA0033.jpg" alt="Fariha in niqab">
+                    <div class="gallery-caption">"Parda chahe kitna bhi ho, tumhari aankhon ka noor har cheez ko roshan kar deta hai. 💖✨"</div>
+                </div>
+
+                <div class="gallery-card">
+                    <img src="IMG-20250712-WA0004.jpg" alt="Fariha in saree">
+                    <div class="gallery-caption">"Saree mein tumhari yeh sharmati hui muskurahat... Meri duniya ki sabse khubsurat tasveer hai. 🌺"</div>
+                </div>
+
+            </div>
+            <button class="step-btn" onclick="startCinematicEnding()">🎉 Happy Birthday 🎈</button>
+        </div>
+
+    </div>
+
+    <!-- CINEMATIC FULLSCREEN OVERLAY -->
+    <div id="cinematic-overlay">
+        <div class="cinematic-text" id="text-phase1">"Fariha, this isn't the end..."</div>
+        <div class="sub-cinematic-text" id="text-phase2">"It's just another chapter of our story. ❤️"</div>
+        
+        <div class="cinematic-cake" id="cinematic-cake">🎂✨</div>
+        
+        <div class="grand-title" id="text-grand">Happy Birthday, My Love.</div>
+        
+        <button class="cinematic-replay-btn" id="replay-btn" onclick="restartEntireExperience()">🔄 restart Dekna chahti toh Click Here Fariha 💖</button>
+    </div>
+
+    <script>
+        const SECRET_CODE = "311508";
+
+        // Web Audio Context for reliable browser playback
+        let audioContext;
+
+        function prepareAudio() {
+            const audio = document.getElementById('bg-music');
+            audio.load();
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+        }
+
+        // Guaranteed Play Music Function
+        function playAudio() {
+            const audio = document.getElementById('bg-music');
+            audio.volume = 0.7;
+
+            // Resume audio context if suspended by browser
+            if (audioContext && audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+
+            let playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log("Music started playing successfully!");
+                }).catch(error => {
+                    console.log("Autoplay failed, retrying on user gesture:", error);
+                    // Backup play trigger
+                    document.body.addEventListener('click', function unlockAudio() {
+                        audio.play();
+                        document.body.removeEventListener('click', unlockAudio);
+                    }, { once: true });
+                });
+            }
+        }
+
+        // Stop Audio Function
+        function stopAudio() {
+            const audio = document.getElementById('bg-music');
+            audio.pause();
+            audio.currentTime = 0;
+        }
+
+        function unlockPage() {
+            const input = document.getElementById('passcode').value;
+            if (input === SECRET_CODE) {
+                prepareAudio(); // Prepare audio context on unlock click
+                document.getElementById('lock-screen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('lock-screen').style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
+                    confetti({ particleCount: 110, spread: 80, origin: { y: 0.6 } });
+                }, 500);
+            } else {
+                const errorEl = document.getElementById('error');
+                errorEl.style.display = 'block';
+                document.querySelector('.lock-box').style.animation = 'shakeWrong 0.4s ease';
+                setTimeout(() => {
+                    document.querySelector('.lock-box').style.animation = '';
+                }, 400);
+            }
+        }
+
+        function switchTab(tabId) {
+            const panels = document.querySelectorAll('.tab-panel');
+            panels.forEach(panel => panel.classList.remove('active'));
+
+            const targetPanel = document.getElementById(tabId);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                confetti({ particleCount: 75, spread: 70, origin: { y: 0.5 } });
+            }
+        }
+
+        let isCakeCut = false;
+        function cutCake() {
+            const cakeElement = document.getElementById('cakeEmoji');
+            const statusElement = document.getElementById('cakeStatus');
+
+            if (!isCakeCut) {
+                playAudio(); // Trigger audio playback immediately on click
+                cakeElement.innerHTML = "🍰✨";
+                statusElement.innerHTML = "🎉 Cake Cut Successfully! Happy Birthday Fariha! 🥳💖";
+                isCakeCut = true;
+
+                confetti({ particleCount: 140, spread: 90, origin: { y: 0.6 } });
+                document.getElementById('btn-wish').style.display = 'inline-block';
+            }
+        }
+
+        let quizAnswered = false;
+        function checkAnswer(btn, option) {
+            if (quizAnswered) return;
+            const feedback = document.getElementById('quizFeedback');
+
+            if (option === 'A') {
+                btn.classList.add('correct');
+                feedback.style.color = '#2ed573';
+                feedback.innerHTML = "Sahi jawab! Mere dil ki 'Sweetie' toh bas tum hi ho! 🥰💖";
+                quizAnswered = true;
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.7 } });
+            } else {
+                btn.classList.add('wrong');
+                feedback.style.color = '#ff4757';
+                feedback.innerHTML = "Arrey nahi! Phir se socho... 😉";
+            }
+        }
+
+        function updateCountdown() {
+            const targetDate = new Date(Date.UTC(2026, 8, 14, 18, 0, 0)).getTime();
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference <= 0) {
+                document.getElementById('countdown-heading').innerHTML = "🎉 Today is the Special Day! Happy Birthday! 🎂";
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        /* CINEMATIC SEQUENCE LOGIC */
+        let fireworksInterval = null;
+
+        function startCinematicEnding() {
+            const overlay = document.getElementById('cinematic-overlay');
+            const phase1 = document.getElementById('text-phase1');
+            const phase2 = document.getElementById('text-phase2');
+            const cake = document.getElementById('cinematic-cake');
+            const grand = document.getElementById('text-grand');
+            const replayBtn = document.getElementById('replay-btn');
+
+            phase1.classList.remove('visible');
+            phase2.classList.remove('visible');
+            cake.classList.remove('visible');
+            grand.classList.remove('visible');
+            replayBtn.classList.remove('visible');
+
+            overlay.style.display = 'flex';
+            window.scrollTo(0, 0);
+
+            createSparkles();
+
+            setTimeout(() => { phase1.classList.add('visible'); }, 600);
+            setTimeout(() => { phase2.classList.add('visible'); }, 3600);
+
+            setTimeout(() => {
+                startFireworks();
+                spawnFloatingHearts();
+                cake.classList.add('visible');
+            }, 6000);
+
+            setTimeout(() => { grand.classList.add('visible'); }, 7800);
+            setTimeout(() => { replayBtn.classList.add('visible'); }, 9800);
+        }
+
+        /* Full Restart Logic */
+        function restartEntireExperience() {
+            stopAudio();
+
+            if (fireworksInterval) clearInterval(fireworksInterval);
+            
+            document.getElementById('cinematic-overlay').style.display = 'none';
+
+            isCakeCut = false;
+            document.getElementById('cakeEmoji').innerHTML = "🎂";
+            document.getElementById('cakeStatus').innerHTML = "Make a wish & tap the cake!";
+            document.getElementById('btn-wish').style.display = 'none';
+
+            quizAnswered = false;
+            document.querySelectorAll('.option-btn').forEach(btn => {
+                btn.classList.remove('correct', 'wrong');
+            });
+            document.getElementById('quizFeedback').innerHTML = "";
+
+            document.querySelectorAll('.flip-card').forEach(card => {
+                card.classList.remove('flipped');
+            });
+
+            switchTab('tab-cake');
+        }
+
+        function startFireworks() {
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            fireworksInterval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(fireworksInterval);
+
+                const particleCount = 50 * (timeLeft / duration);
+                
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.1, 0.4), y: Math.random() - 0.2 } 
+                }));
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.6, 0.9), y: Math.random() - 0.2 } 
+                }));
+            }, 250);
+        }
+
+        function spawnFloatingHearts() {
+            const overlay = document.getElementById('cinematic-overlay');
+            const heartIcons = ['❤️', '💖', '💕', '✨', '🌸'];
+            
+            for (let i = 0; i < 25; i++) {
+                setTimeout(() => {
+                    let heart = document.createElement('div');
+                    heart.className = 'cinematic-heart';
+                    heart.innerHTML = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                    heart.style.left = Math.random() * 90 + 5 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                    overlay.appendChild(heart);
+
+                    setTimeout(() => heart.remove(), 7000);
+                }, i * 300);
+            }
+        }
+
+        function createSparkles() {
+            const overlay = document.getElementById('cinematic-overlay');
+            document.querySelectorAll('.sparkle-star').forEach(el => el.remove());
+
+            for (let i = 0; i < 40; i++) {
+                let star = document.createElement('div');
+                star.className = 'sparkle-star';
+                let size = Math.random() * 4 + 2;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                overlay.appendChild(star);
+            }
+        }
+    </script>
+</body>
+</html>
